@@ -2,8 +2,8 @@ package com.example.listshopingprogect.domain
 
 data class ShopItem(
 
-    val name: String,
-    val count: Int,
+    var name: String,
+    var count: Int,
     val enabled: Boolean,
     var id: Int = UNDEFINED_ID
 ) {
