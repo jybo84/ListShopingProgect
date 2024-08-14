@@ -13,6 +13,11 @@ import com.example.listshopingprogect.domain.ShopItem
 class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
 
     var shopList = listOf<ShopItem>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     var count = 0
 
     class ShopItemViewHolder(element: View) : RecyclerView.ViewHolder(element) {
