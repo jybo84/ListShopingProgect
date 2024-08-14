@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#1E88E5</color>
     <color name="postBlue">#83C0F4</color>
+    <color name="red">#E53935</color>
+    <color name="green">#0AF114</color>
 </resources>
