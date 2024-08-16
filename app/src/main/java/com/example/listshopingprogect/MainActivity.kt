@@ -32,30 +32,34 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
-        myAdapter.shopList = it
+            myAdapter.shopList = it
         }
     }
-    private fun initAdapter(){
+
+    private fun initAdapter() {
         val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
         myAdapter = ShopListAdapter()
         rvShopList.apply {
             adapter = myAdapter
-            recycledViewPool.setMaxRecycledViews(R.layout.item_shop_enabled, ShopListAdapter.MAX_POOL_ELEMENT)
-            recycledViewPool.setMaxRecycledViews(R.layout.item_shop_disabled, ShopListAdapter.MAX_POOL_ELEMENT)
+            recycledViewPool.setMaxRecycledViews(
+                R.layout.item_shop_enabled,
+                ShopListAdapter.MAX_POOL_ELEMENT
+            )
+            recycledViewPool.setMaxRecycledViews(
+                R.layout.item_shop_disabled,
+                ShopListAdapter.MAX_POOL_ELEMENT
+            )
         }
 
-// 4. У моего адаптера уже прписываем конкретную логику.
-        myAdapter.onShopItemLongClick = object : ShopListAdapter.OnShopItemLongClick{
-            override fun onLongClick(shopItem: ShopItem) {
-                viewModel.changeEnablesState(shopItem)
-            }
+        // 3. на мой адаптер вешаю конкретную реализацию
+        myAdapter.onShopItemLongClick = {
+            viewModel.changeEnablesState(it)
         }
 
-        myAdapter.onShopItemSimpleClick = object : ShopListAdapter.OnShopItemSimpleClick {
-            override fun onSimpleClick(shopItem: ShopItem) {
-                Log.d("!!", shopItem.toString())
-            }
-
+        myAdapter.onShopItemSimpleClick = {
+            Log.d("!!", it.toString())
         }
+
     }
 }
+

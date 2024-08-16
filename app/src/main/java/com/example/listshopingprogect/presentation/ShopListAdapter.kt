@@ -17,11 +17,9 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
             field = value
             notifyDataSetChanged()
         }
-
-    // 2. Объявляем переменную, что б потом мы могли в данном классе работать с интерфейсом.
-    var onShopItemLongClick : OnShopItemLongClick? = null
-
-    var onShopItemSimpleClick : OnShopItemSimpleClick? = null
+    // 1. Объявил переменные которые принимают ShopItem и метод по его обработке
+    var onShopItemLongClick : ((ShopItem) -> Unit)? = null
+    var onShopItemSimpleClick : ((ShopItem) -> Unit)? = null
 
     private var count = 0
 
@@ -57,16 +55,17 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         else
             holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.white))
 
-        // 3. Говорим системе что у адаптера будет логика при длительном нажатии и абстакцию ложим внутрь
+        // 2. Говорим системе, что при длительном нажатии будет какая то логика
         holder.itemView.setOnLongClickListener {
-            onShopItemLongClick?.onLongClick(item)
+            onShopItemLongClick?.invoke(item)
             true
         }
 
         holder.itemView.setOnClickListener {
-            onShopItemSimpleClick?.onSimpleClick(item)
+            onShopItemSimpleClick?.invoke(item)
             true
         }
+
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -84,16 +83,4 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         const val MAX_POOL_ELEMENT = 25
     }
 
-    //1.  создал интерфейс с абстрактным методом. Реализовывать его буду в А/F.
-    //    Адаптер  не может делать конкретную реализацию
-    //    На одном экране при длительном нажатии меняется цвет элемента, а на другом удаляется элемент.
-    //    Конктретную логику мы реализовываем в A/F
-    interface OnShopItemLongClick {
-        fun onLongClick(shopItem: ShopItem)
-    }
-
-    interface OnShopItemSimpleClick {
-        fun onSimpleClick(shopItem: ShopItem)
-
-    }
 }
