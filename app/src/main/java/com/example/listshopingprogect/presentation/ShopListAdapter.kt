@@ -18,7 +18,12 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
             notifyDataSetChanged()
         }
 
-    var count = 0
+    // 2. Объявляем переменную, что б потом мы могли в данном классе работать с интерфейсом.
+    var onShopItemLongClick : OnShopItemLongClick? = null
+
+    var onShopItemSimpleClick : OnShopItemSimpleClick? = null
+
+    private var count = 0
 
     class ShopItemViewHolder(element: View) : RecyclerView.ViewHolder(element) {
         val tvName = element.findViewById<TextView>(R.id.tv_name)
@@ -44,17 +49,24 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val item = shopList[position]
 
-        holder.itemView.setOnLongClickListener {
-            true
-        }
-
         holder.tvName.text = item.name
         holder.tvCount.text = item.count.toString()
 
         if (item.enabled)
             holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
         else
-            holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
+            holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.white))
+
+        // 3. Говорим системе что у адаптера будет логика при длительном нажатии и абстакцию ложим внутрь
+        holder.itemView.setOnLongClickListener {
+            onShopItemLongClick?.onLongClick(item)
+            true
+        }
+
+        holder.itemView.setOnClickListener {
+            onShopItemSimpleClick?.onSimpleClick(item)
+            true
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -70,5 +82,18 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         const val VIEW_DISABLE = 2
 
         const val MAX_POOL_ELEMENT = 25
+    }
+
+    //1.  создал интерфейс с абстрактным методом. Реализовывать его буду в А/F.
+    //    Адаптер  не может делать конкретную реализацию
+    //    На одном экране при длительном нажатии меняется цвет элемента, а на другом удаляется элемент.
+    //    Конктретную логику мы реализовываем в A/F
+    interface OnShopItemLongClick {
+        fun onLongClick(shopItem: ShopItem)
+    }
+
+    interface OnShopItemSimpleClick {
+        fun onSimpleClick(shopItem: ShopItem)
+
     }
 }

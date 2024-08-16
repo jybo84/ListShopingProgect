@@ -43,5 +43,19 @@ class MainActivity : AppCompatActivity() {
             recycledViewPool.setMaxRecycledViews(R.layout.item_shop_enabled, ShopListAdapter.MAX_POOL_ELEMENT)
             recycledViewPool.setMaxRecycledViews(R.layout.item_shop_disabled, ShopListAdapter.MAX_POOL_ELEMENT)
         }
+
+// 4. У моего адаптера уже прписываем конкретную логику.
+        myAdapter.onShopItemLongClick = object : ShopListAdapter.OnShopItemLongClick{
+            override fun onLongClick(shopItem: ShopItem) {
+                viewModel.changeEnablesState(shopItem)
+            }
+        }
+
+        myAdapter.onShopItemSimpleClick = object : ShopListAdapter.OnShopItemSimpleClick {
+            override fun onSimpleClick(shopItem: ShopItem) {
+                Log.d("!!", shopItem.toString())
+            }
+
+        }
     }
 }
