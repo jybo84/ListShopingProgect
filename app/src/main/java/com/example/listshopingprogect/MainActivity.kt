@@ -39,7 +39,17 @@ class MainActivity : AppCompatActivity() {
     private fun initAdapter() {
         val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
         myAdapter = ShopListAdapter()
-        rvShopList.apply {
+
+        setupAdapter(rvShopList)
+
+        setupLongClick()
+
+        setupCLick()
+
+    }
+
+    private fun setupAdapter(rvShopList: RecyclerView?) {
+        rvShopList?.apply {
             adapter = myAdapter
             recycledViewPool.setMaxRecycledViews(
                 R.layout.item_shop_enabled,
@@ -50,16 +60,18 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.MAX_POOL_ELEMENT
             )
         }
+    }
 
-        // 3. на мой адаптер вешаю конкретную реализацию
+    private fun setupLongClick() {
         myAdapter.onShopItemLongClick = {
             viewModel.changeEnablesState(it)
         }
+    }
 
+    private fun setupCLick() {
         myAdapter.onShopItemSimpleClick = {
             Log.d("!!", it.toString())
         }
-
     }
 }
 

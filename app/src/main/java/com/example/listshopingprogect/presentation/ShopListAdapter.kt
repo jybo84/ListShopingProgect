@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listshopingprogect.R
 import com.example.listshopingprogect.domain.ShopItem
@@ -14,12 +15,15 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
 
     var shopList = listOf<ShopItem>()
         set(value) {
+            val callback = ShopItemDiff(shopList, value)
+            val resultDiff = DiffUtil.calculateDiff(callback)
+            resultDiff.dispatchUpdatesTo(this)
             field = value
-            notifyDataSetChanged()
+
         }
-    // 1. Объявил переменные которые принимают ShopItem и метод по его обработке
-    var onShopItemLongClick : ((ShopItem) -> Unit)? = null
-    var onShopItemSimpleClick : ((ShopItem) -> Unit)? = null
+
+    var onShopItemLongClick: ((ShopItem) -> Unit)? = null
+    var onShopItemSimpleClick: ((ShopItem) -> Unit)? = null
 
     private var count = 0
 
@@ -53,9 +57,8 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         if (item.enabled)
             holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
         else
-            holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.white))
+            holder.tvName.setTextColor(ContextCompat.getColor(holder.itemView.context,R.color.white))
 
-        // 2. Говорим системе, что при длительном нажатии будет какая то логика
         holder.itemView.setOnLongClickListener {
             onShopItemLongClick?.invoke(item)
             true
