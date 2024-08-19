@@ -1,5 +1,7 @@
 package com.example.listshopingprogect.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.listshopingprogect.data.ShopListRepositoryImpl
 import com.example.listshopingprogect.domain.AddShopItemUseCase
@@ -15,8 +17,21 @@ class ShopItemViewModel : ViewModel() {
     val addShopItemUseCase = AddShopItemUseCase(repository)
     val editShopItemUseCase = EditShopItemUseCase(repository)
 
+    private var _errorInputName = MutableLiveData<Boolean>()
+    val errorInputName: LiveData<Boolean> = _errorInputName
+
+    private var _errorInputCount = MutableLiveData<Boolean>()
+    val errorInputCount: LiveData<Boolean> = _errorInputName
+
+    private val _shopItem = MutableLiveData<ShopItem>()
+    val shopItem: LiveData<ShopItem> = _shopItem
+
+    private val _shouldCloseScreen = MutableLiveData<Boolean>()
+    val shouldCloseScreen: LiveData<Boolean> = _shouldCloseScreen
+
     fun getShopItem(shopItemId: Int) {
         val item = getShopItemUseCase.getShopItem(shopItemId)
+        _shopItem.value = item
     }
 
     fun addShopItem(inputName: String?, inputCount: String) {
@@ -26,16 +41,20 @@ class ShopItemViewModel : ViewModel() {
         if (resultValidate) {
             val shopItem = ShopItem(name, count, true)
             addShopItemUseCase.addShopItem(shopItem)
+            finishWork()
         }
     }
 
     fun editShopItem(inputName: String?, inputCount: String) {
-        val name = parseName(inputName)
-        val count = parseCount(inputCount)
-        var resultValidate = inputValidate(name, count)
+        val editName = parseName(inputName)
+        val editCount = parseCount(inputCount)
+        var resultValidate = inputValidate(editName, editCount)
         if (resultValidate) {
-            val shopItem = ShopItem(name, count, true)
-            editShopItemUseCase.editShopItem(shopItem)
+            _shopItem.value?.let {
+                val item = it.copy(name = editName, count = editCount)
+                editShopItemUseCase.editShopItem(item)
+                finishWork()
+            }
         }
     }
 
@@ -54,9 +73,23 @@ class ShopItemViewModel : ViewModel() {
     private fun inputValidate(name: String, count: Int): Boolean {
         val result = true
         if (name.isBlank())
-            !result
+            _errorInputName.value = true
+        !result
         if (count <= 0)
-            !result
+            _errorInputCount.value = true
+        !result
         return result
+    }
+
+    fun resetErrorInputName() {
+        _errorInputName.value = false
+    }
+
+    fun resetErrorInputCount() {
+        _errorInputCount.value = false
+    }
+
+    private fun finishWork() {
+        _shouldCloseScreen.value = true
     }
 }
