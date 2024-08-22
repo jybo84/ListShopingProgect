@@ -16,12 +16,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.listshopingprogect.R
+import com.example.listshopingprogect.domain.ShopItem
 import com.google.android.material.textfield.TextInputLayout
 
 class ShopItemFragment(
-    private var screenMode: String = MODE_UNKNOWN,
-    private var shopItemId: Int = UNDEFINED_ID
+
 ) : Fragment() {
+
+    private var screenMode: String = MODE_UNKNOWN
+    private var shopItemId: Int = UNDEFINED_ID
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilCount: TextInputLayout
@@ -79,7 +82,7 @@ class ShopItemFragment(
         }
 
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-          activity?.onBackPressedDispatcher
+            activity?.onBackPressedDispatcher
         }
     }
 
@@ -148,25 +151,22 @@ class ShopItemFragment(
         private const val UNDEFINED_ID = -1
         private const val MODE_UNKNOWN = ""
 
-        fun newIntentAddItem(context: Context): Intent {
-            val intent = Intent(context, ShopItemActivity::class.java)
-            intent.putExtra(SCREEN_MODE, MODE_ADD)
-            return intent
+        fun newInstanceAddItem(): ShopItemFragment {
+
+            val bundle = Bundle()
+            bundle.putString(SCREEN_MODE, MODE_ADD)
+            val fragment = ShopItemFragment()
+            fragment.arguments = bundle
+            return fragment
         }
 
-        fun newIntentEditItem(context: Context, shopItemId: Int): Intent {
-            val intent = Intent(context, ShopItemActivity::class.java)
-            intent.putExtra(SCREEN_MODE, MODE_EDIT)
-            intent.putExtra(EXTRA_ITEM_ID, shopItemId)
-            return intent
-        }
-
-        fun newInstanceAddItem() : ShopItemFragment {
-            return ShopItemFragment(MODE_ADD)
-        }
-
-        fun newInstanceEditItem(shopItemId: Int) : ShopItemFragment {
-            return ShopItemFragment(MODE_EDIT, shopItemId)
+        fun newInstanceEditItem(shopItemId: Int): ShopItemFragment {
+            val bundle = Bundle()
+            bundle.putString(SCREEN_MODE, MODE_EDIT)
+            bundle.putInt(EXTRA_ITEM_ID, shopItemId)
+            val fragment = ShopItemFragment()
+            fragment.arguments = bundle
+            return fragment
         }
     }
 
@@ -180,10 +180,16 @@ class ShopItemFragment(
     }
 
     private fun parseParams() {
-        if (screenMode != MODE_ADD && screenMode != MODE_EDIT)
+      val bundle = requireArguments()
+        if (!bundle.containsKey(SCREEN_MODE))
             throw RuntimeException("нет режима")
-        if (screenMode == MODE_EDIT && shopItemId == UNDEFINED_ID)
-            throw RuntimeException("Не пришло id")
-
+        val mode = bundle.getString(SCREEN_MODE)
+        if (mode != MODE_ADD && mode != MODE_EDIT)
+            throw RuntimeException("непонятный режим")
+        screenMode = mode
+        if (screenMode == MODE_EDIT)
+            if (!bundle.containsKey(EXTRA_ITEM_ID))
+                throw RuntimeException("не пришёл id")
+        shopItemId = bundle.getInt(EXTRA_ITEM_ID, UNDEFINED_ID)
     }
 }
