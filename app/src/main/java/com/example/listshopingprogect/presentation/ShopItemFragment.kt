@@ -79,7 +79,7 @@ class ShopItemFragment(
         }
 
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-//            finish()
+          activity?.onBackPressedDispatcher
         }
     }
 
@@ -159,6 +159,14 @@ class ShopItemFragment(
             intent.putExtra(SCREEN_MODE, MODE_EDIT)
             intent.putExtra(EXTRA_ITEM_ID, shopItemId)
             return intent
+        }
+
+        fun newInstanceAddItem() : ShopItemFragment {
+            return ShopItemFragment(MODE_ADD)
+        }
+
+        fun newInstanceEditItem(shopItemId: Int) : ShopItemFragment {
+            return ShopItemFragment(MODE_EDIT, shopItemId)
         }
     }
 
