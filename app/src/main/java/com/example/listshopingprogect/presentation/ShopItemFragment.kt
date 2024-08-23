@@ -82,7 +82,7 @@ class ShopItemFragment(
         }
 
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressedDispatcher
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
     }
 
