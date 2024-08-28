@@ -26,7 +26,7 @@ class ShopItemViewModel : ViewModel() {
     private val _shopItem = MutableLiveData<ShopItem>()
     val shopItem: LiveData<ShopItem> = _shopItem
 
-    private val _shouldCloseScreen = MutableLiveData<Unit>()
+    private val _shouldCloseScreen = MutableLiveData(Unit)
     val shouldCloseScreen: LiveData<Unit> = _shouldCloseScreen
 
     fun getShopItem(shopItemId: Int) {
@@ -63,11 +63,7 @@ class ShopItemViewModel : ViewModel() {
     }
 
     private fun parseCount(inputCount: String?): Int {
-        return try {
-            inputCount?.trim()?.toInt() ?: 0
-        } catch (e: Exception) {
-            0
-        }
+        return inputCount?.trim()?.toInt() ?: 0
     }
 
     private fun inputValidate(name: String, count: Int): Boolean {
