@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "shop_items")
 data class ShopItemDbModel(
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
+    var id: Int,
     var name: String,
     var count: Int,
     val enabled: Boolean,
