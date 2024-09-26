@@ -31,7 +31,6 @@ class ShopItemFragment(
 
     private lateinit var viewModel: ShopItemViewModel
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,11 +51,11 @@ class ShopItemFragment(
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        observeViewModel()
+
         launchRightMode()
 
         addTextChangeListeners()
-        observeViewModel()
-
     }
 
     private fun observeViewModel() {
@@ -177,7 +176,7 @@ class ShopItemFragment(
     }
 
     private fun parseParams() {
-      val bundle = requireArguments()
+        val bundle = requireArguments()
         if (!bundle.containsKey(SCREEN_MODE)) {
             throw RuntimeException("нет режима")
         }
