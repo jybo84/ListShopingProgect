@@ -13,13 +13,12 @@ import com.example.listshopingprogect.domain.ShopItem
 
 class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
 
-    var shopList = listOf<ShopItem>()
+    var shopListAdapter = listOf<ShopItem>()
         set(value) {
-            val callback = ShopItemDiff(shopList, value)
+            val callback = ShopItemDiff(shopListAdapter, value)
             val resultDiff = DiffUtil.calculateDiff(callback)
             resultDiff.dispatchUpdatesTo(this)
             field = value
-
         }
 
     var onShopItemLongClick: ((ShopItem) -> Unit)? = null
@@ -45,11 +44,11 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     }
 
     override fun getItemCount(): Int {
-        return shopList.size
+        return shopListAdapter.size
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
-        val item = shopList[position]
+        val item = shopListAdapter[position]
 
         holder.tvName.text = item.name
         holder.tvCount.text = item.count.toString()
@@ -72,7 +71,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     }
 
     override fun getItemViewType(position: Int): Int {
-        val el = shopList[position]
+        val el = shopListAdapter[position]
         return if (el.enabled)
             1
         else

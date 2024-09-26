@@ -16,8 +16,7 @@ abstract class AppDatabase : RoomDatabase() {
                 application,
                 AppDatabase::class.java,
                 "shop_item.db"
-            ).allowMainThreadQueries()
-                .build()
+            ).build()
         }
     }
 }

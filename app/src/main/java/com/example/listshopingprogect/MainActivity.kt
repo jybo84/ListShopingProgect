@@ -1,10 +1,6 @@
 package com.example.listshopingprogect
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,7 +10,6 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.listshopingprogect.domain.ShopItem
 import com.example.listshopingprogect.presentation.ShopItemActivity
 import com.example.listshopingprogect.presentation.ShopItemFragment
 import com.example.listshopingprogect.presentation.ShopListAdapter
@@ -40,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
-            myAdapter.shopList = it
+            myAdapter.shopListAdapter = it
         }
 
         val buttonAdd = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
@@ -91,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = myAdapter.shopList[viewHolder.adapterPosition]
+                val item = myAdapter.shopListAdapter[viewHolder.adapterPosition]
                 viewModel.deleteShopItem(item)
             }
         }
