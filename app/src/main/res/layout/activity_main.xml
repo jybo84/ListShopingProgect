@@ -27,7 +27,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/baseline_add_circle_24"
-        app:layout_constraintBottom_toBottomOf="@+id/rv_shop_list"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
