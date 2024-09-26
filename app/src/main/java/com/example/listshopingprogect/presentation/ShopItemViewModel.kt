@@ -23,7 +23,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     val addShopItemUseCase = AddShopItemUseCase(repository)
     val editShopItemUseCase = EditShopItemUseCase(repository)
 
-    val scope = CoroutineScope(Dispatchers.IO)
+    val scope = CoroutineScope(Dispatchers.Main)
 
     private var _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean> = _errorInputName
