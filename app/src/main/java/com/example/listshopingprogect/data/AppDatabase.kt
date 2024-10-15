@@ -11,12 +11,15 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun shopListDao(): ShopListDao
 
     companion object {
+
+        private var instance: AppDatabase? = null
+
         fun getDb(application: Application): AppDatabase {
-            return Room.databaseBuilder(
+            return instance ?: Room.databaseBuilder(
                 application,
                 AppDatabase::class.java,
                 "shop_item.db"
-            ).build()
+            ).build().also { instance = it }
         }
     }
 }
