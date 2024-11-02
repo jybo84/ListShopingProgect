@@ -11,18 +11,18 @@ import com.example.listshopingprogect.domain.AddShopItemUseCase
 import com.example.listshopingprogect.domain.EditShopItemUseCase
 import com.example.listshopingprogect.domain.GetShopItemUseCase
 import com.example.listshopingprogect.domain.ShopItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-
-class ShopItemViewModel (application: Application) : AndroidViewModel(application) {
-
-    private val repository = ShopListRepositoryImpl(application)
-
-    val getShopItemUseCase = GetShopItemUseCase(repository)
-    val addShopItemUseCase = AddShopItemUseCase(repository)
-    val editShopItemUseCase = EditShopItemUseCase(repository)
+import javax.inject.Inject
+@HiltViewModel
+class ShopItemViewModel @Inject constructor(
+    val getShopItemUseCase: GetShopItemUseCase,
+    val addShopItemUseCase: AddShopItemUseCase,
+    val editShopItemUseCase: EditShopItemUseCase,
+    ) : ViewModel() {
 
     private var _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean> = _errorInputName

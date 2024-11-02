@@ -14,7 +14,9 @@ import com.example.listshopingprogect.presentation.ShopItemActivity
 import com.example.listshopingprogect.presentation.ShopItemFragment
 import com.example.listshopingprogect.presentation.ShopListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
