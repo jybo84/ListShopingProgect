@@ -67,7 +67,6 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
             onShopItemSimpleClick?.invoke(item)
             true
         }
-
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -84,5 +83,4 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
 
         const val MAX_POOL_ELEMENT = 25
     }
-
 }

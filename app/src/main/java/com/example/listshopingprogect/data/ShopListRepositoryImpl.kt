@@ -1,6 +1,5 @@
 package com.example.listshopingprogect.data
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.listshopingprogect.domain.ShopItem
@@ -15,7 +14,7 @@ class ShopListRepositoryImpl @Inject constructor(
 ) : ShopListRepository {
 
     override suspend fun addShopItem(shopItem: ShopItem) {
-        (mappers.mapEntityToDbModel(shopItem))
+        shopListDao.addShopItem(mappers.mapEntityToDbModel(shopItem))
     }
 
     override suspend fun deleteShopItem(shopItem: ShopItem) {

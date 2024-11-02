@@ -12,13 +12,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-
-    getShopListUseCase: GetShopListUseCase,
+//TODO val
     private val deleteShopListUseCase: DeleteShopItemUseCase,
+    private val getShopListUseCase: GetShopListUseCase,
     private val editShopItemUseCase: EditShopItemUseCase,
 
     ) : ViewModel() {
-
 
     val shopList = getShopListUseCase.getShopList()
 
