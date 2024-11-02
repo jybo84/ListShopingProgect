@@ -16,7 +16,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.listshopingprogect.R
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShopItemActivity : AppCompatActivity() {
 
     private var screenMode = MODE_UNKNOWN
