@@ -8,6 +8,5 @@ class EditShopItemUseCase @Inject constructor(
 
     suspend fun editShopItem(shopItem: ShopItem) {
         shopListRepository.editShopItem(shopItem)
-
     }
 }

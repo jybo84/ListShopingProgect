@@ -16,13 +16,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface Module {
 
- @Binds
- fun bindShopListRepositoryImpl(impl: ShopListRepositoryImpl): ShopListRepository
+    @Binds
+    @Singleton
+    fun bindShopListRepositoryImpl(impl: ShopListRepositoryImpl): ShopListRepository
 
-    companion object{
+    companion object {
         @Provides
         @Singleton
-        fun provideShopListDao(application: Application):ShopListDao{
+        fun provideShopListDao(application: Application): ShopListDao {
             return AppDatabase.getDb(application).shopListDao()
         }
     }

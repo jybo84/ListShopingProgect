@@ -8,6 +8,5 @@ class DeleteShopItemUseCase @Inject constructor(
 
      suspend fun deleteShopItem(shopItem: ShopItem){
           shopListRepository.deleteShopItem(shopItem)
-
      }
 }

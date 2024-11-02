@@ -119,7 +119,6 @@ class ShopItemFragment(
             override fun afterTextChanged(s: Editable?) {
 
             }
-
         })
     }
 
@@ -139,7 +138,6 @@ class ShopItemFragment(
             viewModel.editShopItem(etName.text?.toString(), etCount.text.toString())
         }
     }
-
 
     companion object {
         private const val SCREEN_MODE = "screen_mode"
